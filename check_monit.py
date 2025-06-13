@@ -75,6 +75,10 @@ def service_output(service_type, element):
         inode = float(element.findall('inode/percent')[0].text)
         return 'user={0}%;inodes={1}%'.format(block, inode)
 
+    if service_type == 3:
+        # service type: PROCESS
+        status = element.find('status').text
+        return status
     if service_type == 5:
         output = []
 
@@ -130,7 +134,7 @@ def main(args):
 
     for service in services:
         monitor = int(service.find('monitor').text)
-        if monitor == 1:
+        if monitor in (1, 2):
             status = int(service.find('status').text)
             if status == 0:
                 count_ok += 1
