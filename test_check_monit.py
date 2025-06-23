@@ -108,7 +108,7 @@ class MainTesting(unittest.TestCase):
     def test_main_ok(self, mock_get, mock_print):
         args = commandline(['-H', 'localhost', '-P', 'password', '-U', 'user'])
 
-        d = """<?xml version="1.0" encoding="ISO-8859-1"?><monit><server><id>e4a88a4293441301bf72d6ee07dd4af2</id><incarnation>1692607015</incarnation><version>5.33.0</version><uptime>304</uptime><poll>5</poll><startdelay>0</startdelay><localhostname>scratch</localhostname><controlfile>/root/.monitrc</controlfile><httpd><address>::1</address><port>8080</port><ssl>0</ssl></httpd></server><platform><name>Linux</name><release>5.10</release><version>#1 SMP Debian</version><machine>x86_64</machine><cpu>2</cpu><memory>2030520</memory><swap>0</swap></platform><service type="5"><name>scratch</name><collected_sec>1692607316</collected_sec><collected_usec>642649</collected_usec><status>0</status><status_hint>0</status_hint><monitor>1</monitor><monitormode>0</monitormode><onreboot>0</onreboot><pendingaction>0</pendingaction><filedescriptors><allocated>672</allocated><unused>0</unused><maximum>9223372036854775807</maximum></filedescriptors><system><load><avg01>0.00</avg01><avg05>0.00</avg05><avg15>0.00</avg15></load><cpu><user>0.1</user><system>0.1</system><nice>0.0</nice><wait>0.0</wait><hardirq>0.0</hardirq><softirq>0.4</softirq><steal>0.0</steal><guest>0.0</guest><guestnice>0.0</guestnice></cpu><memory><percent>10.6</percent><kilobyte>214704</kilobyte></memory><swap><percent>0.0</percent><kilobyte>0</kilobyte></swap></system></service></monit>"""
+        d = """<?xml version="1.0" encoding="ISO-8859-1"?><monit><server><id>e4a88a4293441301bf72d6ee07dd4af2</id><incarnation>1692607015</incarnation><version>5.33.0</version><uptime>304</uptime><poll>5</poll><startdelay>0</startdelay><localhostname>scratch</localhostname><controlfile>/root/.monitrc</controlfile><httpd><address>::1</address><port>8080</port><ssl>0</ssl></httpd></server><platform><name>Linux</name><release>5.10</release><version>#1 SMP Debian</version><machine>x86_64</machine><cpu>2</cpu><memory>2030520</memory><swap>0</swap></platform><service type="5"><name>scratch</name><collected_sec>1692607316</collected_sec><collected_usec>642649</collected_usec><status>0</status><status_hint>0</status_hint><monitor>1</monitor><monitormode>0</monitormode><onreboot>0</onreboot><pendingaction>0</pendingaction><filedescriptors><allocated>672</allocated><unused>0</unused><maximum>9223372036854775807</maximum></filedescriptors><system><load><avg01>1.23</avg01><avg05>4.56</avg05><avg15>7.89</avg15></load><cpu><user>0.1</user><system>0.1</system><nice>0.0</nice><wait>0.0</wait><hardirq>0.0</hardirq><softirq>0.4</softirq><steal>0.0</steal><guest>0.0</guest><guestnice>0.0</guestnice></cpu><memory><percent>10.6</percent><kilobyte>214704</kilobyte></memory><swap><percent>0.0</percent><kilobyte>0</kilobyte></swap></system></service></monit>"""
 
         mock_get.return_value = MockRequest(200, d)
 
@@ -118,7 +118,7 @@ class MainTesting(unittest.TestCase):
 
         calls = [mock.call('[OK]: Monit Service Status 1/1'),
                  mock.call(' \\_ [OK]: scratch'),
-                 mock.call('  load=0.0,0.0,0.0;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
+                 mock.call('  load1=1.23;load5=4.56;load15=7.89;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
 
         mock_print.assert_has_calls(calls)
 
@@ -127,7 +127,7 @@ class MainTesting(unittest.TestCase):
     def test_main_critical(self, mock_get, mock_print):
         args = commandline(['-H', 'localhost', '-P', 'password', '-U', 'user'])
 
-        d = """<?xml version="1.0" encoding="ISO-8859-1"?><monit><server><id>e4a88a4293441301bf72d6ee07dd4af2</id><incarnation>1692607015</incarnation><version>5.33.0</version><uptime>304</uptime><poll>5</poll><startdelay>0</startdelay><localhostname>scratch</localhostname><controlfile>/root/.monitrc</controlfile><httpd><address>::1</address><port>8080</port><ssl>0</ssl></httpd></server><platform><name>Linux</name><release>5.10</release><version>#1 SMP Debian</version><machine>x86_64</machine><cpu>2</cpu><memory>2030520</memory><swap>0</swap></platform><service type="5"><name>scratch</name><collected_sec>1692607316</collected_sec><collected_usec>642649</collected_usec><status>1</status><status_hint>0</status_hint><monitor>1</monitor><monitormode>0</monitormode><onreboot>0</onreboot><pendingaction>0</pendingaction><filedescriptors><allocated>672</allocated><unused>0</unused><maximum>9223372036854775807</maximum></filedescriptors><system><load><avg01>0.00</avg01><avg05>0.00</avg05><avg15>0.00</avg15></load><cpu><user>0.1</user><system>0.1</system><nice>0.0</nice><wait>0.0</wait><hardirq>0.0</hardirq><softirq>0.4</softirq><steal>0.0</steal><guest>0.0</guest><guestnice>0.0</guestnice></cpu><memory><percent>10.6</percent><kilobyte>214704</kilobyte></memory><swap><percent>0.0</percent><kilobyte>0</kilobyte></swap></system></service></monit>"""
+        d = """<?xml version="1.0" encoding="ISO-8859-1"?><monit><server><id>e4a88a4293441301bf72d6ee07dd4af2</id><incarnation>1692607015</incarnation><version>5.33.0</version><uptime>304</uptime><poll>5</poll><startdelay>0</startdelay><localhostname>scratch</localhostname><controlfile>/root/.monitrc</controlfile><httpd><address>::1</address><port>8080</port><ssl>0</ssl></httpd></server><platform><name>Linux</name><release>5.10</release><version>#1 SMP Debian</version><machine>x86_64</machine><cpu>2</cpu><memory>2030520</memory><swap>0</swap></platform><service type="5"><name>scratch</name><collected_sec>1692607316</collected_sec><collected_usec>642649</collected_usec><status>1</status><status_hint>0</status_hint><monitor>1</monitor><monitormode>0</monitormode><onreboot>0</onreboot><pendingaction>0</pendingaction><filedescriptors><allocated>672</allocated><unused>0</unused><maximum>9223372036854775807</maximum></filedescriptors><system><load><avg01>1.23</avg01><avg05>4.56</avg05><avg15>7.89</avg15></load><cpu><user>0.1</user><system>0.1</system><nice>0.0</nice><wait>0.0</wait><hardirq>0.0</hardirq><softirq>0.4</softirq><steal>0.0</steal><guest>0.0</guest><guestnice>0.0</guestnice></cpu><memory><percent>10.6</percent><kilobyte>214704</kilobyte></memory><swap><percent>0.0</percent><kilobyte>0</kilobyte></swap></system></service></monit>"""
 
         mock_get.return_value = MockRequest(200, d)
 
@@ -137,6 +137,6 @@ class MainTesting(unittest.TestCase):
 
         calls = [mock.call('[CRITICAL]: Monit Service Status 0/1'),
                  mock.call(' \\_ [CRITICAL]: scratch'),
-                 mock.call('  load=0.0,0.0,0.0;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
+                 mock.call('  load1=1.23;load5=4.56;load15=7.89;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
 
         mock_print.assert_has_calls(calls)

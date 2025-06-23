@@ -94,7 +94,7 @@ def get_service_output(service_type, element):
         load1 = float(element.findall('system/load/avg01')[0].text)
         load5 = float(element.findall('system/load/avg05')[0].text)
         load15 = float(element.findall('system/load/avg15')[0].text)
-        output.append('load={0},{1},{2}'.format(load1, load5, load15))
+        output.append('load1={0};load5={1};load15={2}'.format(load1, load5, load15))
 
         user = float(element.findall('system/cpu/user')[0].text)
         system = float(element.findall('system/cpu/system')[0].text)
