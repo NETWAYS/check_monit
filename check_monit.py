@@ -66,7 +66,7 @@ def commandline(args):
 def print_output(status, count_ok, count_all, items):
     s = icinga_status[status]
 
-    print(f"[{s}]: Monit Service Status {count_ok}/{count_all}")
+    print(f"[{s}]: Monit Service Status. {count_ok} of {count_all} are OK")
 
     if len(items):
         for item in items:
@@ -85,7 +85,7 @@ def get_service_output(service_type, element):
     # Service Type Process
     if service_type == 3:
         status = element.find('status').text
-        return status
+        return 'status={0}'.format(status)
 
     # Service Type Host
     if service_type == 5:
@@ -109,7 +109,8 @@ def get_service_output(service_type, element):
 
     # Service Type Program
     if service_type == 7:
-        return element.findall('program/output')[0].text
+        programoutput = element.findall('program/output')[0].text
+        return 'output={0}'.format(programoutput)
 
     return 'Service (type={0}) not implemented'.format(service_type)
 

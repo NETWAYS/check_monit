@@ -36,13 +36,13 @@ class CLITesting(unittest.TestCase):
         actual = get_service_output(-1, input_element)
         self.assertEqual(actual, 'Service (type=-1) not implemented')
 
-        input_element = ET.ElementTree(ET.fromstring("""<doc><status>unittest</status></doc>"""))
+        input_element = ET.ElementTree(ET.fromstring("""<doc><status>alright</status></doc>"""))
         actual = get_service_output(3, input_element)
-        self.assertEqual(actual, 'unittest')
+        self.assertEqual(actual, 'status=alright')
 
         input_element = ET.ElementTree(ET.fromstring("""<doc><program><output>foobar</output></program></doc>"""))
         actual = get_service_output(7, input_element)
-        self.assertEqual(actual, 'foobar')
+        self.assertEqual(actual, 'output=foobar')
 
 class UtilTesting(unittest.TestCase):
 
@@ -50,7 +50,7 @@ class UtilTesting(unittest.TestCase):
     def test_return_plugin(self, mock_print):
         actual = print_output(1, 2, 3, [{'name': 'foo', 'output': 'bar', 'status': 1}])
 
-        calls = [mock.call('[WARNING]: Monit Service Status 2/3'),
+        calls = [mock.call('[WARNING]: Monit Service Status. 2 of 3 are OK'),
                  mock.call(' \\_ [CRITICAL]: foo'),
                  mock.call('  bar')]
 
@@ -116,7 +116,7 @@ class MainTesting(unittest.TestCase):
 
         self.assertEqual(actual, 0)
 
-        calls = [mock.call('[OK]: Monit Service Status 1/1'),
+        calls = [mock.call('[OK]: Monit Service Status. 1 of 1 are OK'),
                  mock.call(' \\_ [OK]: scratch'),
                  mock.call('  load=0.0,0.0,0.0;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
 
@@ -135,7 +135,7 @@ class MainTesting(unittest.TestCase):
 
         self.assertEqual(actual, 2)
 
-        calls = [mock.call('[CRITICAL]: Monit Service Status 0/1'),
+        calls = [mock.call('[CRITICAL]: Monit Service Status. 0 of 1 are OK'),
                  mock.call(' \\_ [CRITICAL]: scratch'),
                  mock.call('  load=0.0,0.0,0.0;user=0.1%;system=0.1%;nice=0.0%;hardirq=0.0%;memory=10.6%')]
 
