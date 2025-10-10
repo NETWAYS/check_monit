@@ -111,7 +111,8 @@ def get_service_output(service_type, element):
     if service_type == 7:
         return_value = None
         for output_item in element.findall('program/output'):
-            return_value = output_item.text # <class 'xml.etree.ElementTree.Element'>
+            # type( output_item ) is <class 'xml.etree.ElementTree.Element'>
+            return_value = output_item.text if return_value is None else f"{return_value}; {output_item.text}"
         if return_value is None:
             return_value = 'no command output available'
 
@@ -128,7 +129,7 @@ def get_service_states(services):
         # Get the monitor state for the service (0: Not, 1: Yes, 2: Init, 4: Waiting)
         monitor = int(service.find('monitor').text)
         # ignore 'Monitor_not' (0)
-        if not monitor == 0:
+        if monitor != 0:
             status = int(service.find('status').text)
             if status == 0:
                 count_ok += 1
