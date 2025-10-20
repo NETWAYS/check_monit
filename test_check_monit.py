@@ -40,9 +40,17 @@ class CLITesting(unittest.TestCase):
         actual = get_service_output(3, input_element)
         self.assertEqual(actual, 'unittest')
 
+        input_element = ET.ElementTree(ET.fromstring("""<doc><program><output></output></program></doc>"""))
+        actual = get_service_output(7, input_element)
+        self.assertEqual(actual, 'no command output available')
+
         input_element = ET.ElementTree(ET.fromstring("""<doc><program><output>foobar</output></program></doc>"""))
         actual = get_service_output(7, input_element)
         self.assertEqual(actual, 'foobar')
+
+        input_element = ET.ElementTree(ET.fromstring("""<doc><program><output>foot</output><output>bath</output></program></doc>"""))
+        actual = get_service_output(7, input_element)
+        self.assertEqual(actual, 'foot; bath')
 
 class UtilTesting(unittest.TestCase):
 
