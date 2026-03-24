@@ -70,10 +70,9 @@ def print_output(status, count_ok, count_all, items):
 
     if len(items):
         for item in items:
-            s = "OK" if item['status'] == 0 else "CRITICAL"
-            print(' \\_ [{0}]: {1}'.format(s, item['name']))
-            print('  ' + item['output'])
-
+            s = "OK" if item.get('status') == 0 else "CRITICAL"
+            print(' \\_ [{0}]: {1}'.format(s, item.get('name', 'No Name')))
+            print('  ' + item.get('output', 'None'))
 
 def get_service_output(service_type, element):
     # Service Type Filesystem
