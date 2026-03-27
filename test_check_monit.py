@@ -64,6 +64,24 @@ class UtilTesting(unittest.TestCase):
 
         mock_print.assert_has_calls(calls)
 
+    @mock.patch('builtins.print')
+    def test_return_plugin_with_no_output(self, mock_print):
+        actual = print_output(1, 2, 3, [{'name': 'foo', 'output': None, 'status': 1}])
+
+        calls = [mock.call('[WARNING]: Monit Service Status 2/3'),
+                 mock.call(' \\_ [CRITICAL]: foo'),
+                 mock.call('  None')]
+
+        mock_print.assert_has_calls(calls)
+
+        actual = print_output(1, 2, 3, [{'name': 'foo', 'status': 1}])
+
+        calls = [mock.call('[WARNING]: Monit Service Status 2/3'),
+                 mock.call(' \\_ [CRITICAL]: foo'),
+                 mock.call('  None')]
+
+        mock_print.assert_has_calls(calls)
+
 class MainTesting(unittest.TestCase):
 
     @mock.patch('builtins.print')
